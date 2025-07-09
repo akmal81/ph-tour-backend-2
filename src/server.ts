@@ -11,8 +11,8 @@ const startServer = async () => {
         await mongoose.connect(envVars.DB_URL)
 
         console.log("database connected successfull")
-        server = app.listen(envVars.PORT, ()=>{
-            console.log("Server Listing Port 5000")
+        server = app.listen(envVars.PORT, () => {
+            console.log(`Server Listing Port ${envVars.PORT}`)
         })
     } catch (error) {
         console.log(error)
@@ -21,43 +21,43 @@ const startServer = async () => {
 
 startServer();
 
-process.on("unhandledRejection", (err)=>{
+process.on("unhandledRejection", (err) => {
     console.log("Unhandled Rejection detected... Server shutting down...", err);
 
-    if(server){
-        server.close(()=>{
+    if (server) {
+        server.close(() => {
             process.exit(1);
         })
     };
     process.exit(1);
 })
 
-process.on("uncaughtException", (err)=>{
+process.on("uncaughtException", (err) => {
     console.log("Uncaught Exception detected... Server shutting down...", err)
-    if(server){
-        server.close(()=>{
+    if (server) {
+        server.close(() => {
+            process.exit(1)
+        })
+    };
+    process.exit(1)
+})
+
+process.on("SIGTERM", () => {
+    console.log("SIGTERM detected... Server shutting down...")
+
+    if (server) {
+        server.close(() => {
             process.exit(1)
         })
     }
     process.exit(1)
 })
 
-process.on("SIGTERM", ()=>{
+process.on("SIGINT", () => {
     console.log("SIGTERM detected... Server shutting down...")
 
-    if(server){
-        server.close(()=>{
-            process.exit(1)
-        })
-    }
-    process.exit(1)
-})
-
-process.on("SIGINT", ()=>{
-    console.log("SIGTERM detected... Server shutting down...")
-
-    if(server){
-        server.close(()=>{
+    if (server) {
+        server.close(() => {
             process.exit(1)
         })
     }
