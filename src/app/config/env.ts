@@ -24,7 +24,5 @@ const loadEnvVariables = (): EnvConfig => {
         DB_URL:process.env.DB_URL!,
         NODE_ENV:process.env.NODE_EVN as "development" | "production"
     }
-
 }
-
 export const envVars = loadEnvVariables();

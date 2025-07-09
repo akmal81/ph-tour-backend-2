@@ -1,12 +1,23 @@
-import express,{Request, Response} from "express"
+import express,{json, Request, Response} from "express"
+import cors from "cors"
+import { globalErrorHandler } from "./app/middlewares/globalErrorHandler";
+import notFound from "./app/middlewares/notFound";
+import { router } from "./app/routes";
 
 
 const app = express()
+app.use(json());
+app.use(cors())
+
+app.use("/api/v1", router)  //dont call the UserRoutes() X
 
 app.get("/", (req: Request, res: Response) => { 
     res.status(200).json({
         message:"Welcom to PH-T-M-S"
     })
 })
+
+app.use(globalErrorHandler)
+app.use(notFound)
 
 export default app;
